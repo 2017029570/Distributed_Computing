@@ -9,14 +9,14 @@ const { FileSystemWallet, X509WalletMixin } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-async function main() {
-	try {
+//async function main() {
+//	try {
 const ccpPath = path.resolve(__dirname, '..', 'fabric-network', 'connection-org1.json');
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
-//var enrollAdmin = async function(){
-//    try {
+var enrollAdmin = async function(){
+    try {
 
         // Create a new CA client for interacting with the CA.
         const caInfo = ccp.certificateAuthorities['ca.org1.example.com'];
@@ -47,5 +47,5 @@ const ccp = JSON.parse(ccpJSON);
     }
 }
 
-//exports.enrollAdmin = enrollAdmin;
-main();
+exports.enrollAdmin = enrollAdmin;
+//main();

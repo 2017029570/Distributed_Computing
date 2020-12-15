@@ -41,7 +41,8 @@ if [ "$CC_SRC_PATH" = "NA" ]; then
   # short name of the known chaincode sample
   if [ "$CC_NAME" = "basic" ]; then
     println $'\e[0;32m'asset-transfer-basic$'\e[0m' chaincode
-    CC_SRC_PATH="../asset-transfer-basic"
+    #CC_SRC_PATH="../asset-transfer-basics"
+    CC_SRC_PATH="../"
   elif [ "$CC_NAME" = "events" ]; then
     println $'\e[0;32m'asset-transfer-events$'\e[0m' chaincode
     CC_SRC_PATH="../asset-transfer-events"
@@ -65,7 +66,8 @@ if [ "$CC_SRC_PATH" = "NA" ]; then
   if [ "$CC_SRC_LANGUAGE" = "go" ]; then
     CC_SRC_PATH="$CC_SRC_PATH/chaincode-go/"
   elif [ "$CC_SRC_LANGUAGE" = "java" ]; then
-    CC_SRC_PATH="$CC_SRC_PATH/chaincode-java/"
+    #CC_SRC_PATH="$CC_SRC_PATH/chaincode-java/"
+    CC_SRC_PATH="$CC_SRC_PATH/chaincode/java/"
   elif [ "$CC_SRC_LANGUAGE" = "javascript" ]; then
     CC_SRC_PATH="$CC_SRC_PATH/chaincode-javascript/"
   elif [ "$CC_SRC_LANGUAGE" = "typescript" ]; then

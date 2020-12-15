@@ -6,9 +6,9 @@ cd ~/fabric_project/fabric-network
 ./byfn.sh -m up -a -n -s couchdb
 
 # fabric network down && container down && check docker container
-cd ~/fabric_project/fabric-network
-./byfn -m down 
-|
+cd ~/Distributed_Computing/fabric_project/fabric-network
+./byfn.sh -m down 
+
 IMAGE_TAG=latest docker-compose -f docker-compose-cli.yaml down --volumes
 docker rm -f $(docker ps -aq)
 docker network prune

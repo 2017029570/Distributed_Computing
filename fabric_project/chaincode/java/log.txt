@@ -1,0 +1,1 @@
+[31m2020-12-15 01:51:44.380 PST [main] InitCmd -> ERRO 001[0m Fatal error when initializing core config : FABRIC_CFG_PATH /home/nam98/Distributed_Computing/fabric_project/chaincode/java/../config/ does not exist

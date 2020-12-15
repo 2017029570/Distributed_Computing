@@ -1,2 +1,2 @@
-[34m2020-12-08 01:59:38.802 PST [channelCmd] InitCmdFactory -> INFO 001[0m Endorser and orderer connections initialized
-[34m2020-12-08 01:59:38.843 PST [channelCmd] update -> INFO 002[0m Successfully submitted channel update
+Committed chaincode definition for chaincode 'basic' on channel 'mychannel':
+Version: 1.0, Sequence: 1, Endorsement Plugin: escc, Validation Plugin: vscc, Approvals: [Org1MSP: true, Org2MSP: true]

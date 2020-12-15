@@ -85,7 +85,7 @@ public final class TradeItem implements ContractInterface {
 	
 	String itemJSON = stub.getStringState(id);
 	
-	String owner = stub.GetCreator();
+	String owner = stub.GetCreator().toString();
 	Item item = changeItemOwner(ctx, id, owner);
 	return item;
     }
@@ -118,7 +118,7 @@ public final class TradeItem implements ContractInterface {
 
         QueryResultsIterator<KeyValue> results = stub.getStateByRange("", "");
         //String owner = @JsonProperty(owner);
-	String owner = stub.GetCreator();
+	String owner = stub.GetCreator().toString();
         for(KeyValue result: results) {
             Item item = genson.deserialize(result.getStringValue(), Item.class);
             if(item.owner.equals(owner)) {

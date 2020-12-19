@@ -128,10 +128,10 @@ public final class TradeItem implements ContractInterface {
         String owner = stub.getCreator().toString();
         for (KeyValue result: results) {
             Item item = genson.deserialize(result.getStringValue(), Item.class);
-	    String itemOwner = item.getOwner();
-	    if (itemOwner.equals(owner)) {
-	        queryResults.add(item);
-	    }
+            String itemOwner = item.getOwner();
+            if (itemOwner.equals(owner)) {
+                queryResults.add(item);
+            }
         }
         Item[] response = queryResults.toArray(new Item[queryResults.size()]);
         return response;
@@ -166,7 +166,7 @@ public final class TradeItem implements ContractInterface {
 
         for (KeyValue result: results) {
             Item item = genson.deserialize(result.getStringValue(), Item.class);
-	    int status = item.getStatus();
+            int status = item.getStatus();
             if (status != 0) {
                 queryResults.add(item);
                 //System.out.println(item.toString());

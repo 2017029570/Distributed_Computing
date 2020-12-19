@@ -1,6 +1,5 @@
-[31m2020-12-18 23:00:52.767 PST [comm.tls] ClientHandshake -> ERRO 001[0m Client TLS handshake failed after 199.118212ms with error: x509: certificate is valid for peer0.org1.example.com, peer0, not localhost remoteaddress=127.0.0.1:7051
-[31m2020-12-18 23:00:53.804 PST [comm.tls] ClientHandshake -> ERRO 002[0m Client TLS handshake failed after 20.897562ms with error: x509: certificate is valid for peer0.org1.example.com, peer0, not localhost remoteaddress=127.0.0.1:7051
-[31m2020-12-18 23:00:55.461 PST [comm.tls] ClientHandshake -> ERRO 003[0m Client TLS handshake failed after 27.770178ms with error: x509: certificate is valid for peer0.org1.example.com, peer0, not localhost remoteaddress=127.0.0.1:7051
+[31m2020-12-19 06:02:32.670 PST [comm.tls] ClientHandshake -> ERRO 001[0m Client TLS handshake failed after 808.793215ms with error: x509: certificate is valid for peer0.org1.example.com, peer0, not localhost remoteaddress=127.0.0.1:7051
+[31m2020-12-19 06:02:33.718 PST [comm.tls] ClientHandshake -> ERRO 002[0m Client TLS handshake failed after 31.046768ms with error: x509: certificate is valid for peer0.org1.example.com, peer0, not localhost remoteaddress=127.0.0.1:7051
 Error: failed to retrieve endorser client for install: endorser client failed to connect to localhost:7051: failed to create new connection: context deadline exceeded
 Usage:
   peer lifecycle chaincode install [flags]

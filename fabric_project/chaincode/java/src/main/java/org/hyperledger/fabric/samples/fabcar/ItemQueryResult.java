@@ -16,14 +16,14 @@ import com.owlike.genson.annotation.JsonProperty;
  *
  */
 @DataType()
-public final class CarQueryResult {
+public final class ItemQueryResult {
     @Property()
     private final String key;
 
     @Property()
-    private final Car record;
+    private final Item record;
 
-    public CarQueryResult(@JsonProperty("Key") final String key, @JsonProperty("Record") final Car record) {
+    public ItemQueryResult(@JsonProperty("Key") final String key, @JsonProperty("Record") final Item record) {
         this.key = key;
         this.record = record;
     }
@@ -32,7 +32,7 @@ public final class CarQueryResult {
         return key;
     }
 
-    public Car getRecord() {
+    public Item getRecord() {
         return record;
     }
 
@@ -46,7 +46,7 @@ public final class CarQueryResult {
             return false;
         }
 
-        CarQueryResult other = (CarQueryResult) obj;
+        ItemQueryResult other = (ItemQueryResult) obj;
 
         Boolean recordsAreEquals = this.getRecord().equals(other.getRecord());
         Boolean keysAreEquals = this.getKey().equals(other.getKey());

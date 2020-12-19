@@ -1,7 +1,6 @@
-org/hyperledger/fabric/samples/fabcar/CarQueryResult.java
- org.hyperledger.fabric.samples.fabcar.CarQueryResult
-org/hyperledger/fabric/samples/fabcar/Car.java
- org.hyperledger.fabric.samples.fabcar.Car
-org/hyperledger/fabric/samples/fabcar/FabCar.java
- org.hyperledger.fabric.samples.fabcar.FabCar
- org.hyperledger.fabric.samples.fabcar.FabCar$FabCarErrors
+org/hyperledger/fabric/samples/fabcar/Item.java
+ org.hyperledger.fabric.samples.fabcar.Item
+org/hyperledger/fabric/samples/fabcar/ItemQueryResult.java
+ org.hyperledger.fabric.samples.fabcar.ItemQueryResult
+org/hyperledger/fabric/samples/fabcar/TradeItem.java
+ org.hyperledger.fabric.samples.fabcar.TradeItem

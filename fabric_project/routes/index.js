@@ -64,11 +64,11 @@ router.post('/registerUser', async function(req, res, next) {
 
 // example, how to use json object in router
 router.post('/registerItem', async function(req, res, next) {
-	user = req.body.user;
- 	console.log('name : ', user)
- 	var result = await query.query(req.cookies.user, "registerItem", req.body.name)
+	name = req.body.name;
+	user = req.cookies.user;
+ 	console.log('registerItem name : ', name, user);
+ 	var result = await query.query(user, "registerItem", name)
 	console.log('result : ', result)
-	console.log('make : ', result['make'])
 
  	res.redirect('/');
  })

@@ -11,7 +11,7 @@ const ccpPath = path.resolve(__dirname, '..', 'fabric-network', 'connection-org1
 
 var query = async function(name, q, args){
     try {
-
+	console.log("query : ", name, q, args);
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = new FileSystemWallet(walletPath);
@@ -24,17 +24,18 @@ var query = async function(name, q, args){
             console.log('Run the registerUser.js application before retrying');
             return;
         }
-
+	
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
+	console.log("1 : ", name);
         await gateway.connect(ccpPath, { wallet, identity: name, discovery: { enabled: true, asLocalhost: true } });
-
+	console.log("2");
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
-
+	console.log("3");
         // Get the contract from the network.
         const contract = network.getContract('mycc');
-
+	console.log("4");
         //execute query function
        	consol.log(q);
 	consol.log(args); 

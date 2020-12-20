@@ -1,6 +1,0 @@
-org/hyperledger/fabric/samples/fabcar/Item.java
- org.hyperledger.fabric.samples.fabcar.Item
-org/hyperledger/fabric/samples/fabcar/ItemQueryResult.java
- org.hyperledger.fabric.samples.fabcar.ItemQueryResult
-org/hyperledger/fabric/samples/fabcar/TradeItem.java
- org.hyperledger.fabric.samples.fabcar.TradeItem

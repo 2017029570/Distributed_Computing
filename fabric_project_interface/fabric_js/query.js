@@ -11,7 +11,7 @@ const path = require('path');
 const fs = require('fs');
 
 
-var query = async function(name, fun, ...args){
+var query = async function(name, fun, args){
     try {
         // load the network configuration
         const ccpPath = path.resolve(__dirname, '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
@@ -44,8 +44,26 @@ var query = async function(name, fun, ...args){
 
         //execute query function
         //const result = await contract.evaluateTransaction('queryAllCars');
-        const result = await contract.evaluateTransaction(fun, ...args)
+        //const result = await contract.evaluateTransaction(fun, ...args)
+        if (fun == "getMyItems") {
+            console.log("query : ", fun, name);
+            const result = await contract.evaluateTransaction(fun, name);
 
+        
+            var test = JSON.parse(result);
+            console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+
+            return test;
+        }
+        else {
+            const result = await contract.evaluateTransaction(fun);
+
+        
+            var test = JSON.parse(result);
+            console.log(`Transaction has been evaluated, result is: ${result}`);
+
+            return test;
+        }
         //query result value(string), string to json and use 
         //var test = JSON.parse(result);  -> string to json
         //console.log('test: ', test['make']);  -> use json object

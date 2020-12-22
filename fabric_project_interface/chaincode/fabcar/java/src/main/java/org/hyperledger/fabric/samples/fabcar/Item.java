@@ -11,6 +11,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
 
 import com.owlike.genson.annotation.JsonProperty;
 
+
 @DataType()
 public final class Item {
 
@@ -20,13 +21,34 @@ public final class Item {
     @Property()
     private final String owner;
 
+    @Property()
+    private final int status;
+
+    @Property()
+    private final int price;
+
+    public String getName() {
+        return name;
+    }
+
     public String getOwner() {
         return owner;
     }
 
-    public Item(@JsonProperty("name") final String make, @JsonProperty("owner") final String owner) {
+    public int getPrice() {
+        return price;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public Item(@JsonProperty("name") final String name, @JsonProperty("owner") final String owner,
+        @JsonProperty("status") final int status, @JsonProperty("price") final int price) {
         this.name = name;
         this.owner = owner;
+        this.status = status;
+        this.price = price;
     }
 
     @Override
@@ -52,7 +74,7 @@ public final class Item {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()) + " [make=" + make + ", model="
-                + model + ", color=" + color + ", owner=" + owner + "]";
+        return this.getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()) + " [name=" + name + ", price="
+                + price + ", owner=" + owner + "]";
     }
 }

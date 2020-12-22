@@ -43,7 +43,15 @@ var invoke = async function(name, fun, ...args){
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
         // await contract.submitTransaction('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom');
-        let result = await contract.submitTransaction(fun, ...args);  
+        if (fun == "registerItem" || fun == "buyUserItem") {
+            await contract.submitTransaction(fun, args, name);
+        }
+
+        else if(fun == "sellMyItem") {
+            await contract.submitTransaction(fun, args);
+        }
+
+        //let result = await contract.submitTransaction(fun, ...args);  
         console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.

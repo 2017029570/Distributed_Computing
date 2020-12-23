@@ -50,7 +50,8 @@ var query = async function(name, fun, args){
             const result = await contract.evaluateTransaction(fun, name);
 
         
-            var test = JSON.parse(result);
+            //var test = JSON.parse(result);
+            var test = result.toString();
             console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
 
             return test;
@@ -59,7 +60,8 @@ var query = async function(name, fun, args){
             const result = await contract.evaluateTransaction(fun);
 
         
-            var test = JSON.parse(result);
+            //var test = JSON.parse(result);
+            var test = result.toString();
             console.log(`Transaction has been evaluated, result is: ${result}`);
 
             return test;

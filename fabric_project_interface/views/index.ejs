@@ -60,7 +60,8 @@
 									<th>Name</th>
 								</tr>
 							</thead>
-							<tbody id="myItems">
+							<tbody>
+                                                                <%= myItems %>
 							</tbody>
 						</table>
 					</div>
@@ -70,7 +71,8 @@
 						<form method="post" action="sellMyItem">
 							<div class="row gtr-uniform">
 								<div class="col-12">
-									<select name="demo-category" id="myItemscategory">
+									<select name="demo-category" id="myItems-category">
+                                                                        <%= myItemscategory %>
 									</select>
 								</div>
 								<div class="col-12">
@@ -89,7 +91,8 @@
 						<form method="post" action="buyUserItem">
 							<div class="row gtr-uniform">
 								<div class="col-12">
-									<select name="demo-category" id="salecategory">
+									<select name="demo-category" id="sale-category">
+                                                                        <%= salecategory %>
 									</select>
 								</div>
 								<div class="col-12">
@@ -119,6 +122,7 @@
 									</tr>
 								</thead>
 								<tbody id="registeredItems">
+                                                                <%= registeredItems %>
 								</tbody>
 							</table>
 						</div>
@@ -138,6 +142,7 @@
 									</tr>
 								</thead>
 								<tbody id="ItemOnSale">
+                                                                <%= ItemOnSale %>
 								</tbody>
 							</table>
 						</div>

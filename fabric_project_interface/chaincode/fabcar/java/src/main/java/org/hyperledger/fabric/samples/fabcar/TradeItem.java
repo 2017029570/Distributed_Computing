@@ -43,7 +43,7 @@ import com.owlike.genson.Genson;
 public final class TradeItem implements ContractInterface {
 
     private final Genson genson = new Genson();
-
+    private int nextID = 0;
 
     @Transaction()
     public void initLedger(final Context ctx) {
@@ -52,82 +52,80 @@ public final class TradeItem implements ContractInterface {
     }
 
 
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    @Transaction()
     public Item registerItem(final Context ctx, final String name, final String owner) {
         ChaincodeStub stub = ctx.getStub();
-
-        Item item = new Item(name, owner, 0, 0);
+        String id = String.valueOf(nextID);
+        Item item = new Item(id, name, owner, 0, 0);
         String itemJSON = genson.serialize(item);
         //System.out.println(itemJSON);
-        stub.putStringState(name, itemJSON);
-
+        stub.putStringState(id, itemJSON);
+        nextID = nextID + 1;
         return item;
     }
 
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public Item sellMyItem(final Context ctx, final String name) {
+    @Transaction()
+    public Item sellMyItem(final Context ctx, final String id) {
         ChaincodeStub stub = ctx.getStub();
 
-        String itemJSON = stub.getStringState(name);
+        String itemJSON = stub.getStringState(id);
 
         Item item = genson.deserialize(itemJSON, Item.class);
 
+        String name = item.getName();
         String owner = item.getOwner();
         int price = item.getPrice();
 
-        Item newItem = new Item(name, owner, 1, price);
+        Item newItem = new Item(id, name, owner, 1, price);
         String newitemJSON = genson.serialize(newItem);
         //System.out.println(newitemJSON);
-        stub.putStringState(name, newitemJSON);
+        stub.putStringState(id, newitemJSON);
 
         return newItem;
     }
 
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public Item buyUserItem(final Context ctx, final String name, final String owner)  {
+    @Transaction()
+    public Item buyUserItem(final Context ctx, final String id, final String owner)  {
         ChaincodeStub stub = ctx.getStub();
-        String itemJSON = stub.getStringState(name);
-        Item item = changeItemOwner(ctx, name, owner);
+        String itemJSON = stub.getStringState(id);
+        Item item = changeItemOwner(ctx, id, owner);
         return item;
     }
 
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public Item changeItemOwner(final Context ctx, final String name, final String newOwner)  {
+    @Transaction()
+    public Item changeItemOwner(final Context ctx, final String id, final String newOwner)  {
         ChaincodeStub stub = ctx.getStub();
 
-        String itemJSON = stub.getStringState(name);
+        String itemJSON = stub.getStringState(id);
 
         if (itemJSON == null || itemJSON.isEmpty()) {
-            String errorMessage = String.format("Asset %d does not exist", name);
+            String errorMessage = String.format("Asset %d does not exist", id);
             //System.out.println(errorMessage);
         }
 
         Item item = genson.deserialize(itemJSON, Item.class);
-
-        String owner = item.getOwner();
+        String name = item.getName();
         int price = item.getPrice();
-
-        Item newItem = new Item(name, newOwner, 2, price);
+        Item newItem = new Item(id, name, newOwner, 2, price);
         String newItemJSON = genson.serialize(newItem);
-        stub.putStringState(name, newItemJSON);
+        stub.putStringState(id, newItemJSON);
 
         return newItem;
     }
 
-//    @Transaction(intent = Transaction.TYPE.EVALUATE)
     @Transaction
     public String getMyItems(final Context ctx, final String owner)  {
         ChaincodeStub stub = ctx.getStub();
 
-        List<Item> queryResults = new ArrayList<Item>();
+        List<ItemQueryResult> queryResults = new ArrayList<ItemQueryResult>();
 
-        QueryResultsIterator<KeyValue> results = stub.getStateByRange("", "");
+        QueryResultsIterator<KeyValue> results = stub.getStateByRange("0", "999");
         //String owner = @JsonProperty(owner);
         for (KeyValue result: results) {
             Item item = genson.deserialize(result.getStringValue(), Item.class);
             String itemOwner = item.getOwner();
             if (itemOwner.equals(owner)) {
-                queryResults.add(item);
+                queryResults.add(new ItemQueryResult(result.getKey(), item));
             }
         }
         final String response = genson.serialize(queryResults);
@@ -135,17 +133,17 @@ public final class TradeItem implements ContractInterface {
     }
 
 
-    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    @Transaction()
     public String getAllRegisteredItems(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
 
-        List<Item> queryResults = new ArrayList<Item>();
+        List<ItemQueryResult> queryResults = new ArrayList<ItemQueryResult>();
 
-        QueryResultsIterator<KeyValue> results = stub.getStateByRange("", "");
+        QueryResultsIterator<KeyValue> results = stub.getStateByRange("0", "999");
 
         for (KeyValue result: results) {
             Item item = genson.deserialize(result.getStringValue(), Item.class);
-            queryResults.add(item);
+            queryResults.add(new ItemQueryResult(result.getKey(), item));
             //System.out.println(item.toString());
         }
 
@@ -153,19 +151,19 @@ public final class TradeItem implements ContractInterface {
         return response;
     }
 
-    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    @Transaction()
     public String getAllOrderedItems(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
 
-        List<Item> queryResults = new ArrayList<Item>();
+        List<ItemQueryResult> queryResults = new ArrayList<ItemQueryResult>();
 
-        QueryResultsIterator<KeyValue> results = stub.getStateByRange("", "");
+        QueryResultsIterator<KeyValue> results = stub.getStateByRange("0", "999");
 
         for (KeyValue result: results) {
             Item item = genson.deserialize(result.getStringValue(), Item.class);
             int status = item.getStatus();
             if (status != 0) {
-                queryResults.add(item);
+                queryResults.add(new ItemQueryResult(result.getKey(), item));
                 //System.out.println(item.toString());
             }
         }

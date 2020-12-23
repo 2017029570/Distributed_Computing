@@ -6,57 +6,67 @@ var invoke = require('../fabric_js/invoke.js');
 var router = express.Router();
 
 let user;
-
+var myItems;
+var registeredItems;
+var itemOnSale;
+var myItemsCategory;
+var saleCategory
 /* GET home page. */
-router.get('/', async function(req, res, next) {
-	console.log('main page')
-        if(typeof req.cookies.user != "undefined") {
-            console.log("user : ", req.cookies.user);
-	    var myItem = await query.query(req.cookies.user, 'getMyItems', "");
 
-            console.log("myItem : ", myItem);
+function JsonToHTML(query) {
+        var ret = "";
+        if(query) {
+            for(item of JSON.parse(query)) {
+                ret = ret + "<tr><td>" + item.iD + "</td>" +
+			"<td>" + item.record.owner + "</td>" +
+			"<td>" + item.record.name + "</td></tr>";
+                
 
-            var itemRendering = "";
-            
-            if(typeof myItem != "undefined") {
-	        for(item of JSON.parse(myItem)) {
-		        itemRendering = itemRendering +
-                        "<tr><td>" + item.id + "</td>" +
-			"<td>" + item.owner + "</td>" +
-			"<td>" + item.name + "</td></tr>";
-	        } 
-        
-                var category = "";	
-	        for(item of JSON.parse(myItem)) {
-	                category = category + "<option value='" + item.id + "'>" + item.name + "</option>";
-	        }
-            }       
-	    var registeredItem = await query.query(req.cookies.user, "getAllRegisteredItems", "");
-            var rItems = "";
-            if(typeof registeredItem != "undefined") {
-	        for(item of JSON.parse(registeredItem)) {
-	    	        rItems = rItems + "<tr><td>" + item.id + "</td>" + "<td>" + item.owner + "</td>" + "<td>" + item.name + "</td></tr>";
-	        }
-
-                var sCategory = "";
-	        for(item of JSON.parse(registeredItem)) {
-		        sCategory = sCategory + "<option value='" + item.id + "'>" + item.name + "</option>";
-	        }
             }
-	    var itemOnSale = await query.query(req.cookies.user, 'getAllOrderedItems', "");
-            var iSale = "";
-            if(typeof itemOnSale != "undefined") {
-	        for(item of JSON.parse(itemOnSale)) {
-	    	        ISale = ISale + "<tr><td>" + item.id + "</td>" + 
-                                "<td>" + item.owner + "</td>" + 
-			        "<td>" + item.name + "</td>" +
-			        "<td>" + item.price + "</td>" + 
-			        "<td>" + item.status + "</td></tr>";
-	        }
-            }
- 	    res.render('index', { name: req.cookies.user, myItems: itemRendering, myItemscategory: category, registeredItems: rItems, salecategory: sCategory, ItemOnSale: iSale });
         }
-        res.render('index', { name: req.cookies.user });
+        return ret;
+}
+
+function JsonToHTML2(query) {
+        var ret = "";
+        if(query) {
+            for(item of JSON.parse(query)) {
+                ret = ret + "<tr><td>" + item.iD + "</td>" + 
+                        "<td>" + item.record.owner + "</td>" + 
+			"<td>" + item.record.name + "</td>" +
+			"<td>" + item.record.price + "</td>" + 
+			"<td>" + item.record.status + "</td></tr>";
+
+            }
+        }
+        return ret;
+}
+
+function JsonToCategory(query) {
+        var ret = "";
+        if(query) {
+            for(item of JSON.parse(query)) {
+                ret = ret + "<option value='" + item.iD + "'>" + item.record.name + "</option>";
+            }
+        }
+        return ret;
+}
+
+router.get('/', async function(req, res, next) {
+	console.log('main page');
+        console.log("user : ", req.cookies.user);
+        /*if(typeof req.cookies.user != undefined) {
+            var result1 = await query.query(req.cookies.user, 'getMyItems', []);
+            var result2 = await query.query(req.cookies.user, 'getAllRegisteredItems', []);
+            var result3 = await query.query(req.cookies.user, 'getAllOrderedItems', []);
+            myItems = JsonToHTML(result1);
+            myItemsCatogory = JsonToCategory(result1);
+            registeredItems = JsonToHTML(result2);
+            itemOnSale = JsonToHTML2(result3);
+            saleCategory = JsonToCategory(result3);
+        }*/
+        res.render('index', { name: req.cookies.user, myItems: myItems, myItemscategory: myItemsCategory, registeredItems: registeredItems, salecategory: saleCategory, ItemOnSale: itemOnSale });
+
 });	
 
 router.get('/enrollAdmin', async function(req, res, next) {
@@ -78,23 +88,34 @@ router.post('/registerItem', async function(req, res, next) {
 	user = req.cookies.user;
  	console.log('registerItem name : ', name, user);
  	await invoke.invoke(user, "registerItem", name);
+        
+        var result1 = await query.query(req.cookies.user, 'getMyItems', []);
+        var result2 = await query.query(req.cookies.user, 'getAllRegisteredItems', []);
+        var result3 = await query.query(req.cookies.user, 'getAllOrderedItems', []);
+        myItems = JsonToHTML(result1);
+        myItemsCategory = JsonToCategory(result1);
+        registeredItems = JsonToHTML(result2);
+        itemOnSale = JsonToHTML2(result3);
+        saleCategory = JsonToCategory(result3);
 
+        res.render('index', { name: req.cookies.user, myItems: myItems, myItemscategory: myItemsCategory, registeredItems: registeredItems, salecategory: saleCategory, ItemOnSale: itemOnSale });
  	res.redirect('/');
  })
 
 router.post('/sellMyItem', async function(req, res, next) {
 	user = req.body.user;
  	console.log('name : ', user);
- 	await invoke.invoke(req.cookies.user, "sellMyItem", req.body.myItemscategory);
+ 	await invoke.invoke(req.cookies.user, "sellMyItem", req.body[myItemscategor]);
+        var result1 = await query.query(req.cookies.user, 'getMyItems', []);
+        var result2 = await query.query(req.cookies.user, 'getAllRegisteredItems', []);
+        var result3 = await query.query(req.cookies.user, 'getAllOrderedItems', []);
+        myItems = JsonToHTML(result1);
+        myItemsCategory = JsonToCategory(result1);
+        registeredItems = JsonToHTML(result2);
+        itemOnSale = JsonToHTML2(result3);
+        saleCategory = JsonToCategory(result3);
 
- 	res.redirect('/');
- })
-
- router.post('/getMyItem', async function(req, res, next) {
-	user = req.body.user;
- 	console.log('name : ', user);
- 	var result = await query.query(req.cookies.user, "getMyItems", "");
-	console.log('result : ', result);
+        res.render('index', { name: req.cookies.user, myItems: myItems, myItemscategory: myItemsCategory, registeredItems: registeredItems, salecategory: saleCategory, ItemOnSale: itemOnSale });
 
  	res.redirect('/');
  })
@@ -102,7 +123,18 @@ router.post('/sellMyItem', async function(req, res, next) {
 router.post('/buyUserItem', async function(req, res, next) {
 	user = req.body.user;
 	console.log('name : ', user);
-	await invoke.invoke(req.cookies.user, "buyUserItem", req.body.salecategory);
+	await invoke.invoke(req.cookies.user, "buyUserItem", req.body[salecategory]);
+        var result1 = await query.query(req.cookies.user, 'getMyItems', []);
+        var result2 = await query.query(req.cookies.user, 'getAllRegisteredItems', []);
+        var result3 = await query.query(req.cookies.user, 'getAllOrderedItems', []);
+        myItems = JsonToHTML(result1);
+        myItemsCategory = JsonToCategory(result1);
+        registeredItems = JsonToHTML(result2);
+        itemOnSale = JsonToHTML2(result3);
+        saleCategory = JsonToCategory(result3);
+
+        res.render('index', { name: req.cookies.user, myItems: myItems, myItemscategory: myItemsCategory, registeredItems: registeredItems, salecategory: saleCategory, ItemOnSale: itemOnSale });
+
 
 	res.redirect('/');
 })
